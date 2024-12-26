@@ -18,10 +18,37 @@
         th {
             background-color: #f2f2f2;
         }
+
+        input[type="number"] {
+            width: 60px;
+            text-align: center;
+        }
+
+        .button-container {
+            width: 50%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: flex-start; /* Căn trái */
+            margin-top: 20px;
+        }
+
+        .add-button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .add-button:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 <body>
 <h1 style="text-align: center;">Danh mục sản phẩm</h1>
+
 <table>
     <thead>
     <tr>
@@ -29,7 +56,8 @@
         <th>Tên sản phẩm</th>
         <th>Giá</th>
         <th>Số lượng</th>
-        <th>Chi tiết sản phẩm</th>
+        <th>Chi tiết</th>
+        <th>Hành động</th>
     </tr>
     </thead>
     <tbody>
@@ -37,13 +65,25 @@
         <td th:text="${product.id}"></td>
         <td th:text="${product.name}"></td>
         <td th:text="${product.price} + ' $'"></td>
-        <td th:text="${product.quantity}"></td>
-
+        <td>
+            <input type="number" th:value="${product.quantity}"
+                   onchange="updateQuantity(${product.id}, this.value)" min="0">
+        </td>
         <td>
             <a th:href="@{/products/{id}(id=${product.id})}">Chi tiết</a>
+        </td>
+        <td>
+            <a th:href="@{/products/edit/{id}(id=${product.id})}">Sửa</a> |
+            <a th:href="@{/products/delete/{id}(id=${product.id})}" onclick="return confirm('Bạn có chắc chắn muốn xóa?');">Xóa</a>
         </td>
     </tr>
     </tbody>
 </table>
+
+<!-- Nút thêm sản phẩm -->
+<div class="button-container">
+    <a href="/products/add" class="add-button">Thêm sản phẩm</a>
+</div>
+
 </body>
 </html>
